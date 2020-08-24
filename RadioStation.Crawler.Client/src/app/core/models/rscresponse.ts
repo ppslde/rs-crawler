@@ -1,6 +1,6 @@
-export class RscResponse{
+export class RscResponse {
     constructor(
-        public message:string,
-        public data:any
-    ){}
+        public message: string,
+        public data: any
+    ) { }
 }

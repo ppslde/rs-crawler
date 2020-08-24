@@ -9,7 +9,7 @@ import { repeat } from 'rxjs/operators';
 })
 export class MetricsService {
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
   }
 
   metrics: any;
@@ -17,20 +17,19 @@ export class MetricsService {
 
   loadMetrics(): Promise<boolean> {
     this.loading = true;
-    return new Promise((resolve, reject) =>{
+    return new Promise((resolve, reject) => {
       this.http.get<RscResponse>(`${environment.apiUrl}/api/metrics/full`).toPromise()
-      .then(r => {
-        if (r.data) {
-          this.metrics = r.data;
-        }
-        resolve(true);
-      }).catch(e => {
-        console.log(e);
-        reject(e);
-      }).finally(() => {
-        this.loading = false;
-      });
-    })
-    
+        .then(r => {
+          if (r.data) {
+            this.metrics = r.data;
+          }
+          resolve(true);
+        }).catch(e => {
+          console.log(e);
+          reject(e);
+        }).finally(() => {
+          this.loading = false;
+        });
+    });
   }
 }

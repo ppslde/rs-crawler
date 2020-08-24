@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from './auth.service'
-import { TokenService } from './token.service'
-import { StationService } from './station.service'
-import { MetricsService } from './metrics.service'
+import { AuthService } from './auth.service';
+import { TokenService } from './token.service';
+import { StationService } from './station.service';
+import { MetricsService } from './metrics.service';
 
 const components = [
 ];

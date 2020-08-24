@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { first } from 'rxjs/operators';
-
 import { StationService } from '../shared/station.service';
-import { Station } from '../core';
-import { MetricsService } from '../shared/metrics.service';
 
 @Component({
   selector: 'app-dashboard',

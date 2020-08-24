@@ -15,16 +15,16 @@ export class AuthService {
 
   constructor(private http: HttpClient, private tokenSrv: TokenService) { }
 
-  login(username: string, password: string): Promise<Boolean> {
-    return new Promise<Boolean>((resolve, reject) => {
+  login(username: string, password: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
       this.http.post(`${environment.apiUrl}/api/user/signin`, {
-        username: username,
-        password: password
+        username,
+        password
       }, httpOptions).toPromise().then(response => {
-        this.tokenSrv.saveToken(response["token"]);
+        this.tokenSrv.saveToken(response[`token`]);
         resolve(true);
       }, error => {
-        console.log(error)
+        console.log(error);
         reject(false);
       });
     });

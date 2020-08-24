@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './core';
-import { AuthGuard } from './auth.guard'
+import { AuthGuard } from './auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OverviewComponent } from './dashboard/components/overview/overview.component';
 import { StationsComponent } from './dashboard/components/stations/stations.component';

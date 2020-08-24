@@ -14,13 +14,12 @@ export class StationDetailsComponent implements OnInit, OnChanges {
 
   @Input() station: Station;
   @Output() stationChange = new EventEmitter<Station>();
-  
+
   stationForm: FormGroup;
 
   ngOnInit(): void { }
 
   ngOnChanges(changes: SimpleChanges): void {
-
 
     this.stationForm = this.fb.group({
       id: new FormControl(changes.station.currentValue?.id || '', Validators.required),
@@ -30,15 +29,11 @@ export class StationDetailsComponent implements OnInit, OnChanges {
     });
   }
 
-  OnSubmit() {
+  OnSubmit(): void {
 
     this.stationSrv.update(this.stationForm.getRawValue()).subscribe(a => {
       console.log(a);
       this.stationChange.emit(a.data);
     });
-
   }
-
-
-
 }

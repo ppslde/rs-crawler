@@ -25,11 +25,11 @@ export class MetricsComponent implements OnInit {
     this.metricSrv.loadMetrics().then(v => {
       if (v) {
         this.data = this.metricSrv.metrics;
-        this.createChart()
+        this.createChart();
       }
       this.loading = false;
     });
-    this.stationSrv.getStations().then(s => this.stations = s)
+    this.stationSrv.getStations().then(s => this.stations = s);
   }
 
   createChart(): void {
@@ -44,8 +44,8 @@ export class MetricsComponent implements OnInit {
     }), {});
 
 
-    let dates = crawlStatusByStation[this.selectedStation].map(d => d.date);
-    let counts = crawlStatusByStation[this.selectedStation].map(d => d.count);
+    const dates = crawlStatusByStation[this.selectedStation].map(d => d.date);
+    const counts = crawlStatusByStation[this.selectedStation].map(d => d.count);
 
 
     if ('destroy' in this.chart) {
@@ -58,8 +58,8 @@ export class MetricsComponent implements OnInit {
         datasets: [
           {
             data: counts,
-            borderColor: "#3cba9f",
-            backgroundColor: "#3cba9f",
+            borderColor: '#3cba9f',
+            backgroundColor: '#3cba9f',
             fill: true
           },
         ]

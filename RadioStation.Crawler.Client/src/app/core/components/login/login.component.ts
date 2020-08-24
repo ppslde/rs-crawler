@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authSrv: AuthService, private fb: FormBuilder,private router: Router) { 
+  constructor(private authSrv: AuthService, private fb: FormBuilder, private router: Router) {
     console.log('login component load');
   }
 
@@ -25,13 +25,13 @@ export class LoginComponent implements OnInit {
     console.log('login component loaded');
   }
 
-  public OnSubmit() {
-    this.authSrv.login(this.authForm.value.username, this.authForm.value.password).then(result =>{
+  public OnSubmit(): void {
+    this.authSrv.login(this.authForm.value.username, this.authForm.value.password).then(result => {
       if (result) {
-        this.router.navigateByUrl("/dashboard");
+        this.router.navigateByUrl('/dashboard');
       }
     }, error => {
-      console.log("Login error", error)
+      console.log('Login error', error);
     });
   }
 }

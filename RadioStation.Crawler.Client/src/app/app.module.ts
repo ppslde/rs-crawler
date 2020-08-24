@@ -8,11 +8,11 @@ import { RouterModule } from '@angular/router';
 
 import { routes } from './router';
 
-import { coreDeclarations } from './core'
+import { coreDeclarations } from './core';
 import { HomeComponent } from './home/home.component';
-import { SharedModule } from './shared/shared.module'
+import { SharedModule } from './shared/shared.module';
 
-import { NgMaterialModule } from './shared/material.module'
+import { NgMaterialModule } from './shared/material.module';
 
 import { AuthInterceptorProviders } from './auth.interceptor';
 import { DashboardComponent } from './dashboard/dashboard.component';

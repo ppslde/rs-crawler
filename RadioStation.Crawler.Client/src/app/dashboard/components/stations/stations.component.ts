@@ -13,12 +13,12 @@ export class StationsComponent implements OnInit {
 
   stations: Station[];
   selectedStation: Station;
-  
+
   ngOnInit(): void {
-    this.stationSrv.getStations().then(s => this.stations = s)
+    this.stationSrv.getStations().then(s => this.stations = s);
   }
 
-  onStationSelected(s: Station){
+  onStationSelected(s: Station): void {
     this.selectedStation = s;
   }
 }

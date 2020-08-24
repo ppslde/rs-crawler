@@ -7,13 +7,13 @@ export class Song {
         public id: string,
         public MusicBrainzId: string,
         public Title: string,
-        public FoundTracks: Number,
+        public FoundTracks: number,
         public Duration: Time,
         public DurationMax: Time,
         public DurationMin: Time,
         public DurationAvg: Time,
         public ArtistId: string,
-        public Artist: Artist
+        public TheArtist: Artist
     ) { }
 
 }

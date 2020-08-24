@@ -10,7 +10,8 @@ export class AuthGuard implements CanActivate {
 
   constructor(private router: Router, private tokenSrv: TokenService) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
+   Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     const token = this.tokenSrv.getToken();
     if (token) {

@@ -2,7 +2,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TokenService } from './shared/token.service'
+import { TokenService } from './shared/token.service';
 
 
 const TOKEN_HEADER_KEY = 'Authorization';

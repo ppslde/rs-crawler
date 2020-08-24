@@ -1,5 +1,5 @@
-import { Station } from './station'
-import { Song } from './song'
+import { Station } from './station';
+import { Song } from './song';
 
 export class Play {
     constructor(

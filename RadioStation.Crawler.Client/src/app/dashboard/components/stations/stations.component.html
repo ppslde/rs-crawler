@@ -1,10 +1,12 @@
-<div class="masterview">
+<fieldset class="list">
+    <legend>Stations</legend>
     <mat-selection-list multiple="false">
         <mat-list-option *ngFor="let station of stations" [class.selected]="station === selectedStation"
             (click)="onStationSelected(station)"> {{station.name}} - {{station.title}}
         </mat-list-option>
     </mat-selection-list>
-</div>
-<div class="detailsview">
+</fieldset>
+<fieldset class="details">
+    <legend>Details {{ selectedStation?.name }} - {{selectedStation?.title }}</legend>
     <app-station-details [(station)]="selectedStation"></app-station-details>
-</div>
+</fieldset>

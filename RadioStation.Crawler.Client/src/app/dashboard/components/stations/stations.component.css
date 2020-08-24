@@ -1,0 +1,12 @@
+:host{
+    display: flex;
+    flex: 1;
+}
+
+.list{
+    flex: 1;
+}
+
+.details{
+    flex: 3;
+}

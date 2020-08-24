@@ -1,7 +1,5 @@
 <div *ngIf="station">
-
   <h2>{{station.name | uppercase}} Details</h2>
-
   <form  class="stationform"  [formGroup]="stationForm" (ngSubmit)="OnSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Station name</mat-label>
@@ -24,9 +22,6 @@
         <mat-icon>visibility</mat-icon>
       </span>
     </mat-form-field>
-
-
     <button mat-raised-button color="primary" type="submit" [disabled]="!stationForm.valid || stationForm.pristine ">Login</button>
   </form>
-
 </div>

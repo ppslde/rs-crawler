@@ -1,20 +1,35 @@
-.mat-card-content{
+:host{
+    display: flex;
+    flex-direction: column;
+}
+
+.crawlstats{
+    display: flex;
+}
+
+.counters {
+    display: flex;
+    flex-direction: column;
+}
+
+.counters mat-card {
+    margin: 5px;
+}
+
+.counters .mat-card-content {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.counters{
-    display:flex;
-    flex-direction: row;
-}
-
-.crawlchart{
+.crawlchart {
     display: flex;
+    flex: 1;
     flex-direction: column;
+    margin: 5px;
 }
 
-.chart{
+.crawlchart .chart {
     display: flex;
-    max-height: 100%;
+    flex: 1;
 }

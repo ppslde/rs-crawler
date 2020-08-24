@@ -46,5 +46,23 @@ namespace RadioStation.Crawler.Controllers {
         Data = d
       });
     }
+
+    [HttpGet("untagged")]
+    public async Task<IActionResult> UntaggedMetrics() {
+
+      var d = await _db.Plays.Where(p => p.LastTagged != null && p.TrackId == null)
+                 .GroupBy(p => new { p.CrawledArtist, p.CrawledTrack })
+                 .OrderBy(g => g.Key.CrawledArtist)
+                 .Select(g => new {
+                   artist = g.Key.CrawledArtist,
+                   track = g.Key.CrawledTrack,
+                   count = g.Count()
+                 }).AsNoTracking().ToListAsync();
+
+      return Ok(new ResponseModel {
+        Message = "",
+        Data = d
+      });
+    }
   }
 }

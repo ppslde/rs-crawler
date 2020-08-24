@@ -12,23 +12,34 @@ export class MetricsService {
   constructor(private http: HttpClient) {
   }
 
-  metrics: any;
-  loading: boolean;
-
-  loadMetrics(): Promise<boolean> {
-    this.loading = true;
+  loadMetrics(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.http.get<RscResponse>(`${environment.apiUrl}/api/metrics/full`).toPromise()
         .then(r => {
           if (r.data) {
-            this.metrics = r.data;
+            resolve(r.data);
+          }else{
+            resolve([]);
           }
-          resolve(true);
         }).catch(e => {
           console.log(e);
           reject(e);
-        }).finally(() => {
-          this.loading = false;
+        });
+    });
+  }
+
+  loadUntaggedMetrics(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.get<RscResponse>(`${environment.apiUrl}/api/metrics/untagged`).toPromise()
+        .then(r => {
+          if (r.data) {
+            resolve(r.data);
+          }else{
+            resolve([]);
+          }
+        }).catch(e => {
+          console.log(e);
+          reject(e);
         });
     });
   }

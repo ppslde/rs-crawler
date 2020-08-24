@@ -14,6 +14,7 @@ export class MetricsComponent implements OnInit {
   constructor(public stationSrv: StationService, public metricSrv: MetricsService) { }
 
   data: any;
+  untaggeddata: any;
   loading: boolean;
 
   stations: Station[];
@@ -22,14 +23,15 @@ export class MetricsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.metricSrv.loadMetrics().then(v => {
-      if (v) {
-        this.data = this.metricSrv.metrics;
-        this.createChart();
-      }
+    this.metricSrv.loadMetrics().then(d => {
+      this.data = d;
+      this.createChart();
       this.loading = false;
     });
     this.stationSrv.getStations().then(s => this.stations = s);
+    this.metricSrv.loadUntaggedMetrics().then(d => {
+      this.untaggeddata = d;
+    });
   }
 
   createChart(): void {
@@ -65,16 +67,14 @@ export class MetricsComponent implements OnInit {
         ]
       },
       options: {
-        global: {
-          responsive: true,
-          maintainAspectRatio: false
-        },
+        maintainAspectRatio: false,
+        responsive: true,
         legend: {
           display: false
         },
         scales: {
           xAxes: [{
-            display: true
+            display: false
           }],
           yAxes: [{
             display: true

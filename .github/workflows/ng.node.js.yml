@@ -20,17 +20,17 @@ jobs:
         node-version: [10.x, 12.x, 14.x]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
-      working-directory: RadioStation.Crawler.Client
       run: npm install
-    - name: Lint
       working-directory: RadioStation.Crawler.Client
+    - name: Lint the code
       run: npm run lint
-    - name: Build
       working-directory: RadioStation.Crawler.Client
+    - name: Build Production
       run: npm run build -- --prod
+      working-directory: RadioStation.Crawler.Client

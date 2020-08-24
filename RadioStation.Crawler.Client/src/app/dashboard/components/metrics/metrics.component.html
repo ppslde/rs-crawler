@@ -1,0 +1,87 @@
+<div class="counters">
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar>
+                <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
+            </div>
+            <mat-card-subtitle>Total plays count</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-spinner *ngIf="loading" diameter="30" strokeWidth="5"></mat-spinner>
+            <p style="font-size: x-large;">
+                {{data?.playsCount}}
+            </p>
+        </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar>
+                <mat-icon aria-hidden="false" aria-label="Example home icon">label</mat-icon>
+            </div>
+            <mat-card-subtitle>Total tagged count</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-spinner *ngIf="loading" diameter="30" strokeWidth="5"></mat-spinner>
+            <p style="font-size: x-large;">
+                {{data?.taggedCount}}
+            </p>
+        </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar>
+                <mat-icon aria-hidden="false" aria-label="Example home icon">label_off</mat-icon>
+            </div>
+            <mat-card-subtitle>Total untagged count</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-spinner *ngIf="loading" diameter="30" strokeWidth="5"></mat-spinner>
+            <p style="font-size: x-large;">
+                {{data?.untagableCount}}
+            </p>
+        </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar>
+                <mat-icon aria-hidden="false" aria-label="Example home icon">sync_problem</mat-icon>
+            </div>
+            <mat-card-subtitle>Total exeption count</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-spinner *ngIf="loading" diameter="30" strokeWidth="5"></mat-spinner>
+            <p style="font-size: x-large;">
+                {{data?.exceptionsCount}}
+            </p>
+        </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar>
+                <mat-icon aria-hidden="false" aria-label="Example home icon">sync_disabled</mat-icon>
+            </div>
+            <mat-card-subtitle>Total unprocessed count</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-spinner *ngIf="loading" diameter="30" strokeWidth="5"></mat-spinner>
+            <p style="font-size: x-large;">
+                {{data?.neverTaggedCount}}
+            </p>
+        </mat-card-content>
+    </mat-card>
+
+    
+</div>
+<div class="crawlchart">
+    <mat-form-field appearance="fill">
+        <mat-label>Favorite food</mat-label>
+        <mat-select [(ngModel)]="selectedStation" (selectionChange)="createChart()">
+            <mat-option *ngFor="let station of stations" [value]="station.id">
+                {{station.name}} - {{station.title}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div *ngIf="chart" class="chart">
+        <canvas id="canvas">{{ chart }}</canvas>
+    </div>
+</div>

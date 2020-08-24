@@ -1,0 +1,32 @@
+<div *ngIf="station">
+
+  <h2>{{station.name | uppercase}} Details</h2>
+
+  <form  class="stationform"  [formGroup]="stationForm" (ngSubmit)="OnSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Station name</mat-label>
+      <input matInput formControlName="name" placeholder="Please enter your username..." class="example-right-align">
+      <span matPrefix>
+        <mat-icon>visibility</mat-icon>
+      </span>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Station title</mat-label>
+      <input matInput formControlName="title" placeholder="Please enter your username..." class="example-right-align">
+      <span matPrefix>
+        <mat-icon>visibility</mat-icon>
+      </span>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Station playlist url</mat-label>
+      <input matInput formControlName="playlistUrl" placeholder="Please enter your username..." class="example-right-align">
+      <span matPrefix>
+        <mat-icon>visibility</mat-icon>
+      </span>
+    </mat-form-field>
+
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="!stationForm.valid || stationForm.pristine ">Login</button>
+  </form>
+
+</div>

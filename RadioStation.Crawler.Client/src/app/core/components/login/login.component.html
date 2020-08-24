@@ -1,0 +1,24 @@
+<div class="example-container">
+    <form [formGroup]="authForm" (ngSubmit)="OnSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" placeholder="Please enter your username..." class="example-right-align">
+            <span matPrefix>
+                <mat-icon>visibility</mat-icon>
+            </span>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" [type]="hide ? 'password' : 'text'">
+            <span matPrefix>
+                <mat-icon>visibility</mat-icon>
+            </span>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!authForm.valid">Login</button>
+    </form>
+</div>

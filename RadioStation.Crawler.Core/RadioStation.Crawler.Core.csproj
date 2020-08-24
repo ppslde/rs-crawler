@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="0.14.0" />
+    <PackageReference Include="MetaBrainz.MusicBrainz" Version="3.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RadioStation.Crawler.Data\RadioStation.Crawler.Database.csproj" />
+    <ProjectReference Include="..\RadioStation.Crawler.Model\RadioStation.Crawler.Model.csproj" />
+  </ItemGroup>
+
+</Project>

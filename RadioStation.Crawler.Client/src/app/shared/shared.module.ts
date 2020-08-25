@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { TokenService } from './token.service';
 import { StationService } from './station.service';
 import { MetricsService } from './metrics.service';
+import { TaggingService } from './tagging.service';
 
 const components = [
 ];
@@ -13,7 +14,8 @@ const services = [
   AuthService,
   TokenService,
   StationService,
-  MetricsService
+  MetricsService,
+  TaggingService
 ];
 
 @NgModule({

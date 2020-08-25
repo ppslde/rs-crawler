@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Station, RscResponse } from '../core';
+import { Station, IResponse } from '../core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -22,7 +22,7 @@ export class StationService {
   getStations(): Promise<Station[]> {
     return new Promise<Station[]>((resolve, reject) => {
       if (this.stations.length === 0) {
-        this.http.get<RscResponse>(`${environment.apiUrl}/api/station`).toPromise()
+        this.http.get<IResponse<Station[]>>(`${environment.apiUrl}/api/station`).toPromise()
           .then(r => {
             this.stations = r.data;
             resolve(this.stations);

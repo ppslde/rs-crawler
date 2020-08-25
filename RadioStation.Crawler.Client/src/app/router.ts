@@ -2,9 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './core';
 import { AuthGuard } from './auth.guard';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { OverviewComponent } from './dashboard/components/overview/overview.component';
-import { StationsComponent } from './dashboard/components/stations/stations.component';
+import { DashboardComponent, TaggingComponent, StationsComponent, OverviewComponent } from './dashboard';
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   {
@@ -20,6 +18,7 @@ export const routes: Routes = [
       {path: '', pathMatch: 'full', redirectTo: 'overview'},
       {path: 'overview', component: OverviewComponent},
       {path: 'stations', component: StationsComponent},
+      {path: 'tagging', component: TaggingComponent},
       // {path: 'albums', component: ArtistAlbumListComponent},
     ]
   },

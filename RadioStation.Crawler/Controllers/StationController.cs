@@ -31,20 +31,20 @@ namespace RadioStation.Crawler.Controllers {
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddStation([FromBody]Station s) {
+    public async Task<IActionResult> AddStation([FromBody]Station station) {
 
-      if (s == null) {
+      if (station == null) {
         return BadRequest(new ResponseModel{ Message = "Missing station object" });
       }
 
-      if (await _db.Stations.AnyAsync(s => s.PlaylistUrl.ToLower() == s.PlaylistUrl.ToLower())) {
+      if (await _db.Stations.AnyAsync(s => s.PlaylistUrl.ToLower() == station.PlaylistUrl.ToLower())) {
         return BadRequest(new ResponseModel { Message = "PlaylistUrl already crawled" });
       }
 
       try {
-        await _db.Stations.AddAsync(s);
+        await _db.Stations.AddAsync(station);
         await _db.SaveChangesAsync();
-        return Ok(new ResponseModel { Message = "Station added", Data = s });
+        return Ok(new ResponseModel { Message = "Station added", Data = station });
       } catch (Exception) {
 
         return StatusCode(500, new ResponseModel { Message = "Problems while adding new station" });
@@ -52,17 +52,17 @@ namespace RadioStation.Crawler.Controllers {
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateStation([FromBody]Station s) {
+    public async Task<IActionResult> UpdateStation([FromBody]Station station) {
 
-      if (s == null) {
+      if (station == null) {
         return BadRequest(new ResponseModel { Message = "Missing station object" });
       }
 
       try {
         //_db.Stations.Append(s);
-        _db.Stations.Update(s);
+        _db.Stations.Update(station);
         await _db.SaveChangesAsync();
-        return Ok(new ResponseModel { Message = "Station updated", Data = s });
+        return Ok(new ResponseModel { Message = "Station updated", Data = station });
       } catch (Exception) {
         return StatusCode(500, new ResponseModel { Message = "Problems while updating station" });
       }

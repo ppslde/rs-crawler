@@ -20,6 +20,7 @@ import { MetricsComponent } from './dashboard/components/metrics/metrics.compone
 import { OverviewComponent } from './dashboard/components/overview/overview.component';
 import { StationsComponent } from './dashboard/components/stations/stations.component';
 import { StationDetailsComponent } from './dashboard/components/stations/station-details/station-details.component';
+import { TaggingComponent } from './dashboard/components/tagging/tagging.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { StationDetailsComponent } from './dashboard/components/stations/station
     OverviewComponent,
     StationsComponent,
     StationDetailsComponent,
+    TaggingComponent,
   ],
   imports: [
     BrowserModule,

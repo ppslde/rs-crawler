@@ -25,8 +25,46 @@ namespace RadioStation.Crawler.MetaTagger {
 
     public MusicBrainzMetaTagger(IServiceProvider provider) {
       _serviceProvider = provider;
+    }
 
+    public async Task<(string url, IEnumerable<object> songs)> QuerySongAndArtistSingle(string artist, string song, CancellationToken ct) {
+      using var scope = _serviceProvider.CreateScope();
+      var db = scope.ServiceProvider.GetRequiredService<CrawlerDbContext>();
 
+      _artistMappings = await db.Mappings.Where(m => m.Type == "Artist").ToListAsync(ct);
+      _replaceMappings = await db.Mappings.Where(m => m.Type == "Replace").ToListAsync(ct);
+
+      var workartist = _artistMappings.SingleOrDefault(m => m.Text.ToLower() == artist.ToLower())?.Replacement ?? artist;
+      var worksong = song;
+      foreach (var replace in _replaceMappings) {
+        worksong = Regex.Replace(worksong, replace.Text, replace.Replacement).Trim();
+      }
+
+      var url = $"https://musicbrainz.org/ws/2/recording?query={worksong} AND artist:'{workartist}'";
+      var xdoc = XDocument.Parse(await RequestData(url, ct));
+      var nsmgr = new XmlNamespaceManager(new NameTable());
+      nsmgr.AddNamespace("t", xdoc.Root.Name.Namespace.NamespaceName);
+      nsmgr.AddNamespace("n", xdoc.Root.GetNamespaceOfPrefix("ns2").NamespaceName);
+
+      var xpath2recordings = "./t:recording-list/t:recording[number(@n:score) >= 50]";
+      var recordings = xdoc.Root.XPathSelectElements(xpath2recordings, nsmgr);
+
+      var list = new List<object>();
+
+      foreach (var xe in recordings.Take(10)) {
+        var xpath2artistname = "./t:artist-credit/t:name-credit/t:artist/t:name";
+        var name = xe.XPathSelectElement(xpath2artistname, nsmgr).Value;
+
+        var xpath2track = "./t:release-list/t:release/t:medium-list/t:medium/t:track-list/t:track";
+        var xtracks = xe.XPathSelectElements(xpath2track, nsmgr);
+        var tracks = xtracks.Select(x => new { track = x.XPathSelectElement("./t:title", nsmgr)?.Value, length = x.XPathSelectElement("./t:length", nsmgr)?.Value }).Distinct();
+
+        list.Add(new {
+          artist = name,
+          tracks = tracks.ToArray()
+        });
+      }
+      return (url, list);
     }
 
     public async Task TagSongsAsync(CancellationToken ct) {
@@ -54,12 +92,14 @@ namespace RadioStation.Crawler.MetaTagger {
                 artist = await LoadArtistAsync(result.artistId, ct);
               }
               song.Artist = artist;
-            } else {
+            }
+            else {
               played.LastTaggedComment = "No suitable song artist combination found";
             }
           }
           played.Track = song;
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
           played.LastTaggedComment = $"EXCEPTION: {ex.Message}";
         }
         played.LastTagged = DateTime.Now;
@@ -69,7 +109,7 @@ namespace RadioStation.Crawler.MetaTagger {
       }
     }
 
-    private async Task<XDocument> RequestData(string url, CancellationToken ct) {
+    private async Task<string> RequestData(string url, CancellationToken ct) {
       var retriecount = 0;
       using var http = new HttpClient();
       http.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36");
@@ -84,8 +124,7 @@ namespace RadioStation.Crawler.MetaTagger {
         response = await http.GetAsync(url, ct);
       }
 
-      var content = await response.Content.ReadAsStringAsync();
-      return XDocument.Parse(content);
+      return await response.Content.ReadAsStringAsync();
     }
 
     private string CleanTrackTitle(string title) {
@@ -99,9 +138,7 @@ namespace RadioStation.Crawler.MetaTagger {
         worksong = Regex.Replace(worksong, replace.Text, replace.Replacement).Trim();
       }
 
-      var xdoc = await RequestData($"https://musicbrainz.org/ws/2/recording?query={worksong} AND artist:'{artist}'", ct);
-
-
+      var xdoc = XDocument.Parse(await RequestData($"https://musicbrainz.org/ws/2/recording?query={worksong} AND artist:'{artist}'", ct));
       var nsmgr = new XmlNamespaceManager(new NameTable());
       nsmgr.AddNamespace("t", xdoc.Root.Name.Namespace.NamespaceName);
       nsmgr.AddNamespace("n", xdoc.Root.GetNamespaceOfPrefix("ns2").NamespaceName);
@@ -165,7 +202,7 @@ namespace RadioStation.Crawler.MetaTagger {
     }
 
     private async Task<Artist> LoadArtistAsync(string artistId, CancellationToken ct) {
-      var xdoc = await RequestData($"https://musicbrainz.org/ws/2/artist/{artistId}?inc=genres%20tags%20aliases", ct);
+      var xdoc = XDocument.Parse(await RequestData($"https://musicbrainz.org/ws/2/artist/{artistId}?inc=genres%20tags%20aliases", ct));
 
       var nsmgr = new XmlNamespaceManager(new NameTable());
       nsmgr.AddNamespace("t", xdoc.Root.Name.Namespace.NamespaceName);
@@ -190,7 +227,8 @@ namespace RadioStation.Crawler.MetaTagger {
           Genres = GetArtistRatedListItems(xa, nsmgr, "t:genre-list/t:genre"),
           Alias = GetArtistListProperties(xa, nsmgr, "t:alias-list/t:alias", "sort-name")
         };
-      } catch (Exception ex) {
+      }
+      catch (Exception ex) {
         throw new Exception("Error while parsing artist from xelement", ex);
       }
     }

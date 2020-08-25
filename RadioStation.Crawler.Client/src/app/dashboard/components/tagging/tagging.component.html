@@ -1,0 +1,25 @@
+<div class="untagged">
+    <div class="list">
+        <mat-selection-list [multiple]="false">
+            <mat-list-option *ngFor="let utd of untaggedsongs" (click)="onItemClicked(utd)">
+                {{ utd.artist}} - {{ utd.track }} ({{ utd.count }})
+            </mat-list-option>
+        </mat-selection-list>
+    </div>
+</div>
+<div class="details">
+    <mat-card *ngFor="let rec of recrawl.records">
+        <mat-card-header>
+            <mat-card-title> {{rec.artist}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div *ngFor="let t of rec.tracks">
+                <p>{{t.track}}</p>
+                <p>{{t.length}}</p>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button (click)="onRecrawlItem()">Recrawl this item</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

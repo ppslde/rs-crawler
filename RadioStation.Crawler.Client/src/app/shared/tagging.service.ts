@@ -29,7 +29,7 @@ export class TaggingService {
           if (r.data) {
             resolve(r.data);
           } else {
-            resolve([]);
+            resolve();
           }
         }).catch(e => {
           console.log(e);

@@ -24,15 +24,15 @@ jobs:
     - name: Test
       run: dotnet test --configuration Release --no-build
     - name: Publish
-      run: dotnet publish --configuration Release --no-build -o published_output
+      run: dotnet publish --configuration Release --no-build -o api
     - name: Set up SSH
       run: |
         echo -e "${{secrets.DEPLOYMENT_KEY}}" > key
         chmod 600 key
     - name: Deploy to target system
       run: |
-        ssh -t -i key -o StrictHostKeyChecking=no "${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}" "rm -rf ~/rsc/api_deployment"
-        scp -i key -o StrictHostKeyChecking=no -r api_deployment "${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}:~/rsc"
+        ssh -t -i key -o StrictHostKeyChecking=no "${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}" "rm -rf ~/rsc/api"
+        scp -i key -o StrictHostKeyChecking=no -r api "${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}:~/rsc"
     - name: Dockerize
       run: ssh -t -i key -o StrictHostKeyChecking=no "${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}" "~/rsc/dockerize.sh"
     - name: Clean up SSH

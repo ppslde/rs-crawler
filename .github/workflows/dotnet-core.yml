@@ -29,11 +29,14 @@ jobs:
       run: |
         echo -e "${{secrets.DEPLOYMENT_KEY}}" > key
         chmod 600 key
+        ssh-add key
     - name: Deploy to target system
       run: scp -i key -o StrictHostKeyChecking=no -r published_output "${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}:~/rsc"
     - name: Clean up SSH
       if: always()
-      run: shred -n 5 -u key
+      run: |
+        ssh-add -D
+        shred -n 5 -u key
       
       
       

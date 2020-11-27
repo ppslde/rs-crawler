@@ -31,7 +31,7 @@ jobs:
         chmod 600 key
     - name: Deploy to target system
       run: |
-        ssh -t -i key -o StrictHostKeyChecking=no ""${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}" "rm -r ~/rsc/published_output"
+        ssh -t -i key -o StrictHostKeyChecking=no "${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}" "rm -r ~/rsc/published_output"
         scp -i key -o StrictHostKeyChecking=no -r published_output "${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}:~/rsc"
     - name: Clean up SSH
       if: always()

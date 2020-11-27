@@ -24,13 +24,13 @@ jobs:
     - name: Test
       run: dotnet test --configuration Release --no-build
     - name: Publish
-      run: dotnet publish --configuration Release --no-build -o /published_output
+      run: dotnet publish --configuration Release --no-build -o published_output
     - name: Set up SSH
       run: |
         echo -e "${{secrets.DEPLOYMENT_KEY}}" > key
         chmod 600 key
     - name: Deploy to target system
-      run: scp -i key -o StrictHostKeyChecking=no -r /published_output "${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}:/home/${{secrets.DEPLOYMENT_USER}}/rsc/"
+      run: scp -i key -o StrictHostKeyChecking=no -r published_output "${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}:/home/${{secrets.DEPLOYMENT_USER}}/rsc/"
     - name: Clean up SSH
       run: shred -n 5 -u key
       

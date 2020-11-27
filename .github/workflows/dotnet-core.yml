@@ -29,14 +29,13 @@ jobs:
       run: |
         echo -e "${{secrets.DEPLOYMENT_KEY}}" > key
         chmod 600 key
-        eval $(ssh-agent -s)
-        ssh-add key
     - name: Deploy to target system
-      run: scp -i key -o StrictHostKeyChecking=no -r published_output "${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}:~/rsc"
+      run: |
+        ssh -t -i key -o StrictHostKeyChecking=no ""${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}" "rm -r ~/rsc/published_output"
+        scp -i key -o StrictHostKeyChecking=no -r published_output "${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}:~/rsc"
     - name: Clean up SSH
       if: always()
       run: |
-        ssh-add -D
         shred -n 5 -u key
       
       

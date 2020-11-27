@@ -29,6 +29,7 @@ jobs:
       run: |
         echo -e "${{secrets.DEPLOYMENT_KEY}}" > key
         chmod 600 key
+        eval $(ssh-agent -s)
         ssh-add key
     - name: Deploy to target system
       run: scp -i key -o StrictHostKeyChecking=no -r published_output "${{secrets.DEPLOYMENT_USER}}@${{secrets.DEPLOYMENT_HOST}}:~/rsc"
